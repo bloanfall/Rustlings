@@ -20,11 +20,12 @@ fn main() {
         handles.push(handle);
     }
 
-    let mut results = Vec::new();
+    let mut results: Vec<u128> = vec![];
     for handle in handles {
-        // TODO: Collect the results of all threads into the `results` vector.
-        // Use the `JoinHandle` struct which is returned by `thread::spawn`.
+        // TODO: a struct is returned from thread::spawn, can you use it?
+        results.push(handle.join().expect("not u128"));
     }
+
 
     if results.len() != 10 {
         panic!("Oh no! Some thread isn't done yet!");

@@ -1,22 +1,3 @@
-// This is a quiz for the following sections:
-// - Strings
-// - Vecs
-// - Move semantics
-// - Modules
-// - Enums
-//
-// Let's build a little machine in the form of a function. As input, we're going
-// to give a list of strings and commands. These commands determine what action
-// is going to be applied to the string. It can either be:
-// - Uppercase the string
-// - Trim the string
-// - Append "bar" to the string a specified amount of times
-//
-// The exact form of this will be:
-// - The input is going to be a Vector of 2-length tuples,
-//   the first element is the string, the second one is the command.
-// - The output element is going to be a vector of strings.
-
 enum Command {
     Uppercase,
     Trim,
@@ -26,18 +7,27 @@ enum Command {
 mod my_module {
     use super::Command;
 
-    // TODO: Complete the function.
-    // pub fn transformer(input: ???) -> ??? { ??? }
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+        input.into_iter()
+            .map(|(mut s, cmd)| {
+                match cmd {
+                    Command::Uppercase => s = s.to_uppercase(),
+                    Command::Trim => s = s.trim().to_string(),
+                    Command::Append(n) => s += &"bar".repeat(n),
+                }
+                s
+            })
+            .collect()
+    }
 }
 
 fn main() {
-    // You can optionally experiment here.
+    // 你可以在这里进行实验。
 }
 
 #[cfg(test)]
 mod tests {
-    // TODO: What do we need to import to have `transformer` in scope?
-    // use ???;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
@@ -52,11 +42,11 @@ mod tests {
 
         assert_eq!(
             output,
-            [
-                "HELLO",
-                "all roads lead to rome!",
-                "foobar",
-                "barbarbarbarbarbar",
+            vec![
+                "HELLO".to_string(),
+                "all roads lead to rome!".to_string(),
+                "foobar".to_string(),
+                "barbarbarbarbarbar".to_string(),
             ]
         );
     }
